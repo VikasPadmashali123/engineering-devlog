@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunktemp_blog=self.webpackChunktemp_blog||[]).push([["3299"],{1627(e){e.exports=JSON.parse('{"metadata":{"permalink":"/engineering-devlog/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":4,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);

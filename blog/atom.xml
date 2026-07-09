@@ -2,11 +2,50 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://VikasPadmashali123.github.io/engineering-devlog/blog</id>
     <title>Tech Blog Blog</title>
-    <updated>2021-08-26T00:00:00.000Z</updated>
+    <updated>2026-07-09T11:15:41.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://VikasPadmashali123.github.io/engineering-devlog/blog"/>
     <subtitle>Tech Blog Blog</subtitle>
     <icon>https://VikasPadmashali123.github.io/engineering-devlog/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[rman-log-check]]></title>
+        <id>https://VikasPadmashali123.github.io/engineering-devlog/blog/rman-log-check</id>
+        <link href="https://VikasPadmashali123.github.io/engineering-devlog/blog/rman-log-check"/>
+        <updated>2026-07-09T11:15:41.000Z</updated>
+        <summary type="html"><![CDATA[---]]></summary>
+        <content type="html"><![CDATA[<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="slug-first-production-hotfixtitle-rman-backup-failure-and-logs-checkauthors-vikaspadmashali123tags-rman-backup-logs">slug: first-production-hotfix
+title: RMAN backup failure and logs check
+authors: [VikasPadmashali123]
+tags: [Rman, backup, logs]<a href="https://vikaspadmashali123.github.io/engineering-devlog/blog/rman-log-check#slug-first-production-hotfixtitle-rman-backup-failure-and-logs-checkauthors-vikaspadmashali123tags-rman-backup-logs" class="hash-link" aria-label="Direct link to slug: first-production-hotfix
+title: RMAN backup failure and logs check
+authors: [VikasPadmashali123]
+tags: [Rman, backup, logs]" title="Direct link to slug: first-production-hotfix
+title: RMAN backup failure and logs check
+authors: [VikasPadmashali123]
+tags: [Rman, backup, logs]" translate="no">​</a></h2>
+<p>###This post has details of RMAN backup status and logs</p>
+<p>Check RMAN backup status and rman backup logs:</p>
+<p>STEP 1:  To find the status of the jobs:</p>
+<p>set lines 300
+col STATUS format a22
+col hrs format 999.99
+select
+SESSION_KEY, SESSION_RECID, SESSION_STAMP,INPUT_TYPE, STATUS,
+to_char(START_TIME,'mm/dd/yy hh24<!-- -->:mi<!-- -->') start_time,
+to_char(END_TIME,'mm/dd/yy hh24<!-- -->:mi<!-- -->')   end_time,
+elapsed_seconds/3600                   hrs
+from V$RMAN_BACKUP_JOB_DETAILS
+where status='RUNNING'
+order by session_key;</p>
+<p>STEP 2: Check the logs or output of the running RMAN jobs
+set lines 200
+set pages 1000
+select output from GV$RMAN_OUTPUT
+where session_recid = &amp;SESSION_RECID
+and session_stamp = &amp;SESSION_STAMP
+order by recid;</p>]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Welcome]]></title>
         <id>https://VikasPadmashali123.github.io/engineering-devlog/blog/welcome</id>
