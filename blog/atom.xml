@@ -2,16 +2,83 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://VikasPadmashali123.github.io/engineering-devlog/blog</id>
     <title>Tech Blog Blog</title>
-    <updated>2026-07-13T02:46:04.000Z</updated>
+    <updated>2026-07-13T03:29:09.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://VikasPadmashali123.github.io/engineering-devlog/blog"/>
     <subtitle>Tech Blog Blog</subtitle>
     <icon>https://VikasPadmashali123.github.io/engineering-devlog/img/favicon.ico</icon>
     <entry>
+        <title type="html"><![CDATA[AWR-ASH]]></title>
+        <id>https://VikasPadmashali123.github.io/engineering-devlog/blog/AWR-ASH</id>
+        <link href="https://VikasPadmashali123.github.io/engineering-devlog/blog/AWR-ASH"/>
+        <updated>2026-07-13T03:29:09.000Z</updated>
+        <summary type="html"><![CDATA[Title: AWR AND ASH commands!]]></summary>
+        <content type="html"><![CDATA[<p>Title: AWR AND ASH commands!</p>
+<p>ASH Top sessions:</p>
+<p>SELECT session_id, session_serial#, COUNT(*) samples, MAX(sql_id) last_sql
+FROM v$active_session_history
+WHERE sample_time &gt; SYSTIMESTAMP - INTERVAL '15' MINUTE
+GROUP BY session_id, session_serial#
+ORDER BY samples DESC
+FETCH FIRST 20 ROWS ONLY;</p>
+<p>ASG Tio sql 5mins:</p>
+<p>SELECT ash.sql_id,
+COUNT(*) samples,
+SUM(CASE WHEN ash.event IS NULL THEN 1 ELSE 0 END) cpu_samples
+FROM v$active_session_history ash
+WHERE sample_time &gt; SYSTIMESTAMP - INTERVAL '5' MINUTE
+GROUP BY ash.sql_id
+ORDER BY samples DESC
+FETCH FIRST 20 ROWS ONLY;</p>
+<p>ASH Top waits last 10 mins:</p>
+<p>-- top wait events in last 10 minutes (samples)
+SELECT event,
+COUNT(<em>) samples,
+ROUND(100 * COUNT(</em>) / (SELECT COUNT(*) FROM v$active_session_history WHERE sample_time &gt; SYSTIMESTAMP - INTERVAL '10' MINUTE),2) pct
+FROM v$active_session_history
+WHERE sample_time &gt; SYSTIMESTAMP - INTERVAL '10' MINUTE
+GROUP BY event
+ORDER BY samples DESC;</p>
+<p>AWR Create snapshot:</p>
+<p>-- create an immediate AWR snapshot (run as SYS)
+EXEC DBMS_WORKLOAD_REPOSITORY.CREATE_SNAPSHOT;</p>
+<p>AWR generate report via api:</p>
+<p>-- generate AWR HTML for specific snapshot ids (returns CLOB)
+SET LONG 100000000
+SET PAGESIZE 0
+SELECT DBMS_WORKLOAD_REPOSITORY.AWR_REPORT_HTML(
+(SELECT DBID FROM V$DATABASE),
+(SELECT INSTANCE_NUMBER FROM V$INSTANCE),
+<!-- -->:begin_snap_id<!-- -->,
+<!-- -->:end_snap_id<!-- -->
+) FROM DUAL;
+-- Bind <!-- -->:begin_snap_id<!-- --> and <!-- -->:end_snap_id<!-- --> or replace with literal numbers</p>
+<p>List AWR snapshots:</p>
+<p>SELECT snap_id, begin_interval_time, end_interval_time
+FROM dba_hist_snapshot
+ORDER BY snap_id DESC
+FETCH FIRST 50 ROWS ONLY;</p>
+<p>Top SQL from AWR range:</p>
+<p>-- top SQL by elapsed time between AWR snapshots (example)
+SELECT s.sql_id,
+t.sql_text,
+SUM(s.elapsed_time_delta) total_elapsed,
+SUM(s.cpu_time_delta) total_cpu,
+SUM(s.buffer_gets_delta) total_buffer_gets,
+SUM(s.executions_delta) total_executions
+FROM dba_hist_sqlstat s
+JOIN dba_hist_sqltext t ON s.sql_id = t.sql_id
+WHERE s.snap_id BETWEEN <!-- -->:begin_snap<!-- --> AND <!-- -->:end_snap<!-- -->
+AND s.dbid = (SELECT DBID FROM V$DATABASE)
+GROUP BY s.sql_id, t.sql_text
+ORDER BY total_elapsed DESC
+FETCH FIRST 20 ROWS ONLY;</p>]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[rman-log-check]]></title>
         <id>https://VikasPadmashali123.github.io/engineering-devlog/blog/rman-log-check</id>
         <link href="https://VikasPadmashali123.github.io/engineering-devlog/blog/rman-log-check"/>
-        <updated>2026-07-13T02:46:04.000Z</updated>
+        <updated>2026-07-13T03:29:09.000Z</updated>
         <summary type="html"><![CDATA[---]]></summary>
         <content type="html"><![CDATA[<hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="slug-first-production-hotfixtitle-rman-backup-failure-and-logs-checkauthors-vikaspadmashali123tags-rman-backup-logs">slug: first-production-hotfix
